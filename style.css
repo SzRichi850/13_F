@@ -318,6 +318,28 @@ header p {
     background-color: var(--color-dark-orange);
 }
 
+.search-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 30px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#search-input:focus {
+    border-color: var(--color-orange);
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+}
+
 footer {
     background-color: #ffffff;
     text-align: center;
