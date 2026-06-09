@@ -608,7 +608,7 @@ footer {
     .related-card h4 {
         font-size: 0.8rem;
     }
-  
+}
 /* Kereső */
 .search-container {
     margin-top: 20px;
@@ -630,4 +630,4 @@ footer {
 #search-input:focus {
     border-color: var(--color-orange);
     box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
-}
+};
