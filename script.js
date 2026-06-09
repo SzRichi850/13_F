@@ -9,6 +9,9 @@ fetch('recipes.json')
         recipesList.forEach(recipe => {
             const card = document.createElement('div');
             card.className = 'recipe-card';
+            card.addEventListener('click', () => {
+                window.location.href = `recipe.html?id=${recipe.id}`;
+            });
 
             const totalTime = recipe.prepTime + recipe.cookTime;
             const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
