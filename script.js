@@ -50,3 +50,16 @@ fetch('recipes.json')
         });
     })
     .catch(error => console.error('Hiba:', error));
+
+    function filterCards() {
+        const val = document.getElementById('Select').value;
+        const cards = document.querySelectorAll('.recipe-card');
+        let visible = 0;
+        cards.forEach(card => {
+            const kategoria = card.querySelector('.category').textContent;
+            const show = val === 'all' || kategoria === val;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        document.getElementById('countBadge').textContent = visible + ' recept';
+    }
