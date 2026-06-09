@@ -341,3 +341,14 @@ footer {
   .facts {grid-area: 2 / span 1;}
   .footer {grid-area: 3 / span 6;}
 }
+
+.form{
+    text-align: center;
+    font-size: large;
+    color: #FF8C00;
+}
+
+.input{
+    color: #FF8C00;
+    font-size: large;
+}
