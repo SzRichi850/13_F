@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+      <script type="module" src="recipe.js" defer></script>
+      <script type="module" src="script.js"></script>
     <title>Receptek</title>
 </head>
 <body>
@@ -13,6 +15,7 @@
         <a href="receptek.html">Receptek</a>
         <a href="form.html">Új recept</a>
         <a href="#">Menütervező</a>
+        <a href="kedvencek.html" class="nav-active">Kedvencek</a>
     </nav>
 
     <main>
@@ -22,15 +25,16 @@
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Keresés a receptek neve alapján...">
             </div>
+
         </header>
 
         <div class="recipe-grid" id="recipe-container"></div>
+         <div id="recipe-detail-content">
+            <div class="loading">Betöltés...</div>
+        </div>
     </main>
-
     <footer>
         <p>&copy; 2026 Minden jog fenntartva.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
