@@ -1,4 +1,5 @@
 const container = document.getElementById('recipe-container');
+const searchInput = document.getElementById('search-input');
 
 fetch('recipes.json')
     .then(response => response.json())
@@ -22,7 +23,7 @@ fetch('recipes.json')
                 </div>
                 <div class="card-content">
                     <div class="card-header">
-                        <h3>${recipe.name}</h3>
+                        <h3 class="recipe-title">${recipe.name}</h3>
                         <span class="time">${timeDisplay}</span>
                     </div>
                     <p class="description">${recipe.description}</p>
@@ -31,6 +32,21 @@ fetch('recipes.json')
             `;
 
             container.appendChild(card);
+        });
+
+        // Keresés
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.recipe-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.recipe-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     })
     .catch(error => console.error('Hiba:', error));
