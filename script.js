@@ -18,6 +18,9 @@ fetch('recipes.json')
 
             const totalTime = recipe.prepTime + recipe.cookTime;
             const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
+            
+            // Időtartam mentése az elem attribútumába a későbbi rendezéshez
+            card.dataset.time = totalTime;
 
             // Ellenőrizzük, hogy a recept már el van-e mentve kedvencnek
             const isFavorite = favorites.includes(recipe.id);
@@ -88,6 +91,31 @@ fetch('recipes.json')
     })
     .catch(error => console.error('Hiba:', error));
 
+    function filterCards() {
+        const val = document.getElementById('Select').value;
+        const cards = document.querySelectorAll('.recipe-card');
+        let visible = 0;
+        cards.forEach(card => {
+            const kategoria = card.querySelector('.category').textContent;
+            const show = val === 'all' || kategoria === val;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        document.getElementById('countBadge').textContent = visible + ' recept';
+    }
+
+// Rendezés funkció (leggyorsabb előre)
+function sortCards() {
+    const sortBy = document.getElementById('SortSelect').value;
+    if (sortBy === 'time') {
+        const cards = Array.from(document.querySelectorAll('.recipe-card'));
+        
+        // Növekvő sorrendbe rendezés az elmentett időtartam alapján
+        cards.sort((a, b) => Number(a.dataset.time) - Number(b.dataset.time));
+        
+        // Elemek újbóli elhelyezése a rendezett sorrendben
+        cards.forEach(card => container.appendChild(card));
+    }
 function filterCards() {
     const val = document.getElementById('Select').value;
     const cards = document.querySelectorAll('.recipe-card');
