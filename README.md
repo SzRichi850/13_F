@@ -1,3 +1,0 @@
-Git gyakorlás
-
-Recept készítés
