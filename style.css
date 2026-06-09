@@ -1,3 +1,347 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7f6f2;
+            --text-primary: #1a1a18;
+            --text-secondary: #6b6a65;
+            --text-tertiary: #9e9d98;
+            --border: rgba(0,0,0,0.12);
+            --border-hover: rgba(0,0,0,0.25);
+            --green-bg: #E1F5EE;
+            --green-dark: #085041;
+            --green-mid: #0F6E56;
+            --green-accent: #1D9E75;
+            --amber-bg: #FAEEDA;
+            --amber-dark: #633806;
+            --coral-bg: #FAECE7;
+            --coral-dark: #712B13;
+            --amber-star: #EF9F27;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #1e1e1c;
+                --bg-secondary: #272724;
+                --text-primary: #f0efea;
+                --text-secondary: #a8a7a1;
+                --text-tertiary: #6b6a65;
+                --border: rgba(255,255,255,0.1);
+                --border-hover: rgba(255,255,255,0.22);
+                --green-bg: #04342C;
+                --green-dark: #9FE1CB;
+                --green-mid: #5DCAA5;
+                --amber-bg: #412402;
+                --amber-dark: #FAC775;
+                --coral-bg: #4A1B0C;
+                --coral-dark: #F5C4B3;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .mainpage {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .hero {
+            background: var(--bg-primary);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 3rem 2.5rem;
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 10px 22px;
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--green-accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .btn-primary:hover { opacity: 0.88; }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .recipes {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .recipe-card {
+            background: var(--bg-primary);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.15s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .recipe-thumb {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            flex-shrink: 0;
+        }
+
+        .recipe-body {
+            padding: 12px 14px 16px;
+            /* NEM kell fix width — a kártya maga adja a szélességet */
+        }
+
+        .tag-amber { background: var(--amber-bg); color: var(--amber-dark); }
+
+        @media (max-width: 680px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.5rem;
+            }
+            .hero h1 { font-size: 2rem; }
+            .recipes { grid-template-columns: 1fr; }
+        }
+
+:root {
+    --color-light-yellow: #FFD400;
+    --color-mid-yellow: #FFC300;
+    --color-orange: #FF8C00;
+    --color-dark-orange: #FF5F00;
+    --bg-light: #f9fafb;
+    --text-dark: #111827;
+    --text-muted: #4b5563;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+nav {
+    background-color: #ffffff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--color-orange);
+}
+
+main {
+    flex-grow: 1;
+    padding: 40px 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.recipe-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image-container {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: var(--color-mid-yellow);
+    color: var(--text-dark);
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.card-header h3 {
+    font-size: 1.25rem;
+    color: var(--text-dark);
+}
+
+.time {
+    font-size: 0.85rem;
+    background-color: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 6px;
+    color: var(--text-muted);
+}
+
+.description {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.view-btn {
+    width: 100%;
+    background-color: var(--color-orange);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.view-btn:hover {
+    background-color: var(--color-dark-orange);
+}
+
+footer {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #f3f4f6;
+    margin-top: 40px;
+}
+
+@media (min-width: 600px) {
+  .header {grid-area: 1 / span 6;}
+  .menu {grid-area: 2 / span 1;}
+  .content {grid-area: 2 / span 4;}
+  .facts {grid-area: 3 / span 6;}
+  .footer {grid-area: 4 / span 6;}
+}
+
+@media (min-width: 768px) {
+  .header {grid-area: 1 / span 6;}
+  .menu {grid-area: 2 / span 1;}
+  .content {grid-area: 2 / span 4;}
+  .facts {grid-area: 2 / span 1;}
+  .footer {grid-area: 3 / span 6;}
+}
+
 .form{
     text-align: center;
     font-size: large;
