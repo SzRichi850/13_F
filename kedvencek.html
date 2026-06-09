@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Kedvenc receptek</title>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Főoldal</a>
+        <a href="receptek.html">Receptek</a>
+        <a href="form.html">Új recept</a>
+        <a href="#">Menütervező</a>
+        <a href="kedvencek.html" class="nav-active">Kedvencek</a>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Kedvenc receptjeim</h1>
+            <p>A csillaggal jelölt receptjeid egy helyen.</p>
+        </header>
+
+        <div id="favorites-empty" class="favorites-empty" style="display:none;">
+            <div class="empty-icon">⭐</div>
+            <h2>Még nincsenek kedvenceid</h2>
+            <p>Böngészd a recepteket, és jelöld meg a szíved szerintit a <strong>★</strong> gombbal!</p>
+            <a href="receptek.html" class="btn-browse">Receptek böngészése</a>
+        </div>
+
+        <div class="recipe-grid" id="favorites-container"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Minden jog fenntartva.</p>
+    </footer>
+
+    <script type="module">
+        import recipes from './recipes.js';
+
+        const favoritesContainer = document.getElementById('favorites-container');
+        const emptyState = document.getElementById('favorites-empty');
+
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites') || '[]');
+        }
+
+        function removeFavorite(id) {
+            const favs = getFavorites().filter(f => String(f) !== String(id));
+            localStorage.setItem('favorites', JSON.stringify(favs));
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const favIds = getFavorites();
+
+            if (favIds.length === 0) {
+                favoritesContainer.innerHTML = '';
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            favoritesContainer.innerHTML = '';
+
+            // Szűrjük a recepteket a kedvenc ID-k alapján
+            const favRecipes = recipes.filter(recipe => favIds.includes(String(recipe.id)));
+
+            if (favRecipes.length === 0) {
+                favoritesContainer.innerHTML = '';
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            favRecipes.forEach(recipe => {
+                const totalTime = recipe.prepTime + recipe.cookTime;
+                const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
+
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+
+                card.innerHTML = `
+                    <div class="card-image-container" style="cursor:pointer;">
+                        <img src="${recipe.imageUrl || 'https://via.placeholder.com/500x300'}" alt="${recipe.name}">
+                        <span class="category">${recipe.category}</span>
+                        <button class="fav-remove-btn" title="Eltávolítás a kedvencekből" data-id="${recipe.id}">✕</button>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="recipe-title">${escapeHtml(recipe.name)}</h3>
+                            <span class="time">${timeDisplay}</span>
+                        </div>
+                        <p class="description">${escapeHtml(recipe.description)}</p>
+                        <button class="view-btn">Recept megtekintése</button>
+                    </div>
+                `;
+
+                // Kép vagy kártya kattintás → részletek oldal
+                const imgContainer = card.querySelector('.card-image-container');
+                imgContainer.addEventListener('click', () => {
+                    window.location.href = `recipe.html?id=${recipe.id}`;
+                });
+
+                // Megtekintés gomb
+                const viewBtn = card.querySelector('.view-btn');
+                viewBtn.addEventListener('click', () => {
+                    window.location.href = `recipe.html?id=${recipe.id}`;
+                });
+
+                // Kedvenc eltávolító gomb
+                const removeBtn = card.querySelector('.fav-remove-btn');
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFavorite(recipe.id);
+                });
+
+                favoritesContainer.appendChild(card);
+            });
+        }
+
+        // Egyszerű XSS védelem a leírás és név esetén
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        renderFavorites();
+    </script>
+</body>
+</html>

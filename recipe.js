@@ -1,59 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Recept részletei</title>
-</head>
-<body>
 
-    <nav>
-        <a href="index.html">Főoldal</a>
-        <a href="receptek.html">Receptek</a>
-        <a href="form.html">Új recept</a>
-        <a href="#">Menütervező</a>
-    </nav>
+import recipes from "./recipes.js"
+console.log(recipes)
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
-    <main class="recipe-detail-container">
-        <!-- A részletes adatok dinamikusan töltődnek ide -->
-        <div id="recipe-detail-content">
-            <div class="loading">Betöltés...</div>
-        </div>
-    </main>
+const recipeId = getQueryParam('id');
+if (!recipeId) {
+    document.getElementById('recipe-detail-content').innerHTML = '<p class="error">Nincs recept kiválasztva.</p>';
+} else {
+        const recipe = recipes.find(r => r.id == recipeId);
+            if (!recipe) {
+                document.getElementById('recipe-detail-content').innerHTML = '<p class="error">A recept nem található.</p>';
+            }
 
-    <footer>
-        <p>&copy; 2026 Minden jog fenntartva.</p>
-    </footer>
+            const totalTime = recipe.prepTime + recipe.cookTime;
+            const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
 
-    <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+            const related = recipes.filter(r => r.category === recipe.category && r.id != recipe.id).slice(0, 3);
 
-        const recipeId = getQueryParam('id');
-        if (!recipeId) {
-            document.getElementById('recipe-detail-content').innerHTML = '<p class="error">Nincs recept kiválasztva.</p>';
-        } else {
-            fetch('recipes.json')
-                .then(response => response.json())
-                .then(data => {
-                    const recipes = data.recipes || data;
-                    const recipe = recipes.find(r => r.id == recipeId);
-                    if (!recipe) {
-                        document.getElementById('recipe-detail-content').innerHTML = '<p class="error">A recept nem található.</p>';
-                        return;
-                    }
-
-                    const totalTime = recipe.prepTime + recipe.cookTime;
-                    const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
-
-                    const related = recipes.filter(r => r.category === recipe.category && r.id != recipe.id).slice(0, 3);
-
-                    let relatedHtml = '';
-                    if (related.length > 0) {
-                        relatedHtml = `<section class="related-recipes">
+            let relatedHtml = '';
+            if (related.length > 0) {
+                relatedHtml = `<section class="related-recipes">
                             <h3>Kapcsolódó receptek</h3>
                             <div class="related-grid">
                                 ${related.map(r => `
@@ -64,9 +33,9 @@
                                 `).join('')}
                             </div>
                         </section>`;
-                    }
+            }
 
-                    const detailHtml = `
+            const detailHtml = `
                         <div class="recipe-header-image">
                             <img src="${recipe.imageUrl}" alt="${recipe.name}">
                         </div>
@@ -110,20 +79,12 @@
                         </div>
                     `;
 
-                    document.getElementById('recipe-detail-content').innerHTML = detailHtml;
+            document.getElementById('recipe-detail-content').innerHTML = detailHtml;
 
-                    document.querySelectorAll('.related-card').forEach(card => {
-                        card.addEventListener('click', () => {
-                            const id = card.getAttribute('data-id');
-                            window.location.href = `recipe.html?id=${id}`;
-                        });
-                    });
-                })
-                .catch(error => {
-                    document.getElementById('recipe-detail-content').innerHTML = '<p class="error">Hiba a recept betöltése közben.</p>';
-                    console.error(error);
-                });
-        }
-    </script>
-</body>
-</html>
+            // document.querySelectorAll('.related-card').forEach(card => {
+            //     card.addEventListener('click', () => {
+            //         const id = card.getAttribute('data-id');
+            //         window.location.href = `recipe.html?id=${id}`;
+            //     });
+            // });
+}

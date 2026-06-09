@@ -1,6 +1,22 @@
 const container = document.getElementById('recipe-container');
 const searchInput = document.getElementById('search-input');
+import recipesList from "./recipes.js";
 
+function getFavorites() {
+    return JSON.parse(localStorage.getItem('favorites') || '[]');
+}
+
+function toggleFavorite(id) {
+    let favs = getFavorites();
+    const strId = String(id);
+    if (favs.includes(strId)) {
+        favs = favs.filter(f => f !== strId);
+    } else {
+        favs.push(strId);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    return favs.includes(strId);
+}
 fetch('recipes.json')
     .then(response => response.json())
     .then(data => {
@@ -8,7 +24,6 @@ fetch('recipes.json')
         
         // Kedvencek beolvasása LocalStorage-ból (ha még nincs, üres tömb)
         let favorites = JSON.parse(localStorage.getItem('kedvencek')) || [];
-
         recipesList.forEach(recipe => {
             const card = document.createElement('div');
             card.className = 'recipe-card';
@@ -18,6 +33,8 @@ fetch('recipes.json')
 
             const totalTime = recipe.prepTime + recipe.cookTime;
             const timeDisplay = totalTime > 0 ? `${totalTime} perc` : "Gyors";
+
+            const isFav = getFavorites().includes(String(recipe.id));
             
             // Időtartam mentése az elem attribútumába a későbbi rendezéshez
             card.dataset.time = totalTime;
@@ -29,6 +46,9 @@ fetch('recipes.json')
                 <div class="card-image-container">
                     <img src="${recipe.imageUrl || 'https://via.placeholder.com/500x300'}" alt="${recipe.name}">
                     <span class="category">${recipe.category}</span>
+
+                    <button class="fav-btn ${isFav ? 'fav-active' : ''}" title="Kedvencekhez adás" data-id="${recipe.id}">★</button>
+
                     <button class="fav-btn ${isFavorite ? 'active' : ''}" data-id="${recipe.id}">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -44,6 +64,20 @@ fetch('recipes.json')
                     <button class="view-btn">Recept megtekintése</button>
                 </div>
             `;
+
+            card.querySelector('.view-btn').addEventListener('click', () => {
+                window.location.href = `recipe.html?id=${recipe.id}`;
+            });
+
+            card.querySelector('.card-image-container img').addEventListener('click', () => {
+                window.location.href = `recipe.html?id=${recipe.id}`;
+            });
+
+            const favBtn = card.querySelector('.fav-btn');
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const nowFav = toggleFavorite(recipe.id);
+                favBtn.classList.toggle('fav-active', nowFav);
 
             // Kedvenc gomb működtetése
             const favBtn = card.querySelector('.fav-btn');
@@ -66,6 +100,7 @@ fetch('recipes.json')
 
                 // Mentés vissza a LocalStorage-ba
                 localStorage.setItem('kedvencek', JSON.stringify(favorites));
+
             });
 
             container.appendChild(card);
@@ -75,7 +110,6 @@ fetch('recipes.json')
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('.recipe-card');
-
             cards.forEach(card => {
                 const title = card.querySelector('.recipe-title').textContent.toLowerCase();
                 if (title.includes(searchTerm)) {
@@ -83,7 +117,10 @@ fetch('recipes.json')
                 } else {
                     card.style.display = 'none';
                 }
+                card.style.display = title.includes(searchTerm) ? 'flex' : 'none';
             });
+
+        });
         });
         
         // Kezdő darabszám kiíratása
