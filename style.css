@@ -165,6 +165,7 @@ footer {
     padding: 20px;
     border-top: 1px solid #f3f4f6;
     margin-top: 40px;
+}
 
 @media (min-width: 600px) {
   .header {grid-area: 1 / span 6;}
