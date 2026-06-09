@@ -19,24 +19,22 @@
         <header>
             <h1>Recept Böngésző</h1>
             <p>Válogass a legfinomabb ételek között egyszerűen!</p>
-
+            <br>
             <div class="filter-bar">
             <div class="custom-select">
-            <select id="Select" onchange="filterCards()">
-                <option value="all">Összes kategória</option>
-                <option value="Főétel">Főétel</option>
-                <option value="Leves">Leves</option>
-                <option value="Pizza">Pizza</option>
-                <option value="Desszert">Desszert</option>
-                <option value="Saláta">Saláta</option>
-            </select>
+                <select id="Select" onchange="filterCards()">
+                    <option value="all">Összes kategória</option>
+                    <option value="Főétel">Főétel</option>
+                    <option value="Leves">Leves</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Desszert">Desszert</option>
+                    <option value="Saláta">Saláta</option>
+                </select>
             </div>
             <span id="countBadge"></span>
-
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Keresés a receptek neve alapján...">
-
-            </div>
+        </div> <div class="search-container">
+            <input type="text" id="search-input" placeholder="Keresés a receptek neve alapján...">
+        </div>
         </header>
 
         <div class="recipe-grid" id="recipe-container"></div>
