@@ -166,3 +166,5 @@ function filterCards() {
     const badge = document.getElementById('countBadge');
     if(badge) badge.textContent = visible + ' recept';
 }
+
+}
